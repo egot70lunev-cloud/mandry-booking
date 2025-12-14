@@ -138,14 +138,14 @@ vercel --prod
 
 2. **Configurer l'action**
    - **Action** : "Open URL"
-   - **URL** : `https://votre-app.vercel.app/booking`
+   - **URL** : `https://votre-app.vercel.app/book?embed=1` (ou `/booking?embed=1` pour la recherche)
    - **Target** : `_blank` (nouvel onglet) ou `_self` (même onglet)
 
 **Code HTML/CSS si vous utilisez un Embed HTML :**
 
 ```html
 <a 
-  href="https://votre-app.vercel.app/booking" 
+  href="https://votre-app.vercel.app/book?embed=1" 
   target="_blank"
   style="
     display: inline-block;
@@ -184,8 +184,8 @@ vercel --prod
 1. **Ajouter un composant Embed**
    - Dans Framer, ajouter un composant **Embed** ou **Iframe**
 
-2. **Configurer l'URL**
-   - **URL** : `https://votre-app.vercel.app/booking`
+2. **Configurer l'URL avec embed mode**
+   - **URL** : `https://votre-app.vercel.app/book?embed=1`
    - **Width** : `100%` ou `800px` (selon votre design)
    - **Height** : `600px` ou `100vh` (selon votre design)
 
@@ -193,7 +193,7 @@ vercel --prod
 
 ```html
 <iframe 
-  src="https://votre-app.vercel.app/booking"
+  src="https://votre-app.vercel.app/book?embed=1"
   width="100%"
   height="600"
   frameborder="0"
@@ -201,6 +201,12 @@ vercel --prod
   title="Réservation de véhicule"
 ></iframe>
 ```
+
+**Note :** Le paramètre `?embed=1` active le mode embed qui :
+- ✅ Supprime le layout externe, navbar, padding et background
+- ✅ Centre le contenu et le rend responsive
+- ✅ Définit html/body à 100% de hauteur
+- ✅ Remplit complètement le viewport de l'iframe
 
 **Si vous avez des problèmes CSP dans Framer :**
 
