@@ -2,13 +2,14 @@
 const nextConfig = {
   // Permet l'intégration dans iframe (pour Framer uniquement)
   async headers() {
-    // CSP value for Framer embedding
-    const cspFrameAncestors = "frame-ancestors 'self' https://*.framer.app https://framer.app https://*.framer.com https://framer.com";
+    // CSP value for Framer embedding - ONLY framer.app domains
+    const cspFrameAncestors = "frame-ancestors 'self' https://framer.app https://*.framer.app";
     
     return [
       {
-        // Specific rule for /book routes (including /book?embed=1)
-        source: '/book/:path*',
+        // Specific rule for /booking route (including /booking?embed=1)
+        // This must come BEFORE the general rule to ensure priority
+        source: '/booking/:path*',
         headers: [
           {
             key: 'Content-Security-Policy',
