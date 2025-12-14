@@ -83,8 +83,8 @@ export async function GET() {
     if (result.error) {
       const errorDetails = {
         message: result.error.message || 'Unknown error',
-        statusCode: result.error.statusCode || 'N/A',
-        name: result.error.name || 'N/A',
+        statusCode: (result.error as any).statusCode || 'N/A',
+        name: (result.error as any).name || 'N/A',
         fullError: JSON.stringify(result.error, null, 2),
       };
       

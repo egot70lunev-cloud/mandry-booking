@@ -233,8 +233,8 @@ export async function sendBookingConfirmationEmail(
     const errorMessage = clientResult.error.message || JSON.stringify(clientResult.error);
     const errorDetails = {
       message: errorMessage,
-      statusCode: clientResult.error.statusCode,
-      name: clientResult.error.name,
+      statusCode: (clientResult.error as any).statusCode,
+      name: (clientResult.error as any).name,
       fullError: JSON.stringify(clientResult.error, null, 2),
     };
     
@@ -250,8 +250,8 @@ export async function sendBookingConfirmationEmail(
     const errorMessage = adminResult.error.message || JSON.stringify(adminResult.error);
     const errorDetails = {
       message: errorMessage,
-      statusCode: adminResult.error.statusCode,
-      name: adminResult.error.name,
+      statusCode: (adminResult.error as any).statusCode,
+      name: (adminResult.error as any).name,
       fullError: JSON.stringify(adminResult.error, null, 2),
     };
     
