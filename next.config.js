@@ -11,6 +11,24 @@ const nextConfig = {
             key: 'Content-Security-Policy',
             value: "frame-ancestors *",
           },
+          {
+            key: 'X-Frame-Options',
+            value: 'ALLOWALL',
+          },
+        ],
+      },
+      {
+        // Page /book aussi accessible en iframe (pour le flow complet)
+        source: '/book/:path*',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: "frame-ancestors *",
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'ALLOWALL',
+          },
         ],
       },
     ];
