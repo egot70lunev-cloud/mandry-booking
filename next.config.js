@@ -10,10 +10,9 @@ const nextConfig = {
           {
             key: 'Content-Security-Policy',
             // Allow framing from self and Framer domains (including preview subdomains)
-            value: "frame-ancestors 'self' https://*.framer.app https://framer.app",
+            value: "frame-ancestors 'self' https://*.framer.app https://*.framer.website",
           },
-          // Do NOT set X-Frame-Options - CSP frame-ancestors takes precedence
-          // Removing X-Frame-Options to avoid conflicts
+          // X-Frame-Options is NOT set - CSP frame-ancestors takes precedence
         ],
       },
     ];
