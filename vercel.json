@@ -5,7 +5,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "frame-ancestors 'self' https://framer.app https://*.framer.app https://framer.com https://*.framer.com https://*.framer.website https://framerusercontent.com https://*.framerusercontent.com;"
+          "value": "frame-ancestors 'self' https://framer.app https://*.framer.app https://framer.com https://*.framer.com https://*.framer.website https://*.framer.site https://framerusercontent.com https://*.framerusercontent.com;"
         }
       ]
     },
@@ -14,7 +14,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "frame-ancestors 'self' https://framer.app https://*.framer.app https://framer.com https://*.framer.com https://*.framer.website https://framerusercontent.com https://*.framerusercontent.com;"
+          "value": "frame-ancestors 'self' https://framer.app https://*.framer.app https://framer.com https://*.framer.com https://*.framer.website https://*.framer.site https://framerusercontent.com https://*.framerusercontent.com;"
         }
       ]
     },
@@ -23,7 +23,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "frame-ancestors 'self' https://framer.app https://*.framer.app https://framer.com https://*.framer.com https://*.framer.website https://framerusercontent.com https://*.framerusercontent.com;"
+          "value": "frame-ancestors 'self' https://framer.app https://*.framer.app https://framer.com https://*.framer.com https://*.framer.website https://*.framer.site https://framerusercontent.com https://*.framerusercontent.com;"
         }
       ]
     }
