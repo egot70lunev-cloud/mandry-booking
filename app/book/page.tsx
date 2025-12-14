@@ -1,41 +1,15 @@
 'use client';
 
-import { useState, Suspense, useEffect } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 function BookPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const isEmbed = searchParams.get('embed') === '1';
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [bookingId, setBookingId] = useState('');
-
-  // Set html/body height to 100% in embed mode
-  useEffect(() => {
-    if (isEmbed) {
-      document.documentElement.style.height = '100%';
-      document.documentElement.style.margin = '0';
-      document.documentElement.style.padding = '0';
-      document.body.style.height = '100%';
-      document.body.style.margin = '0';
-      document.body.style.padding = '0';
-      document.body.style.overflow = 'auto';
-    }
-    
-    return () => {
-      if (isEmbed) {
-        document.documentElement.style.height = '';
-        document.documentElement.style.margin = '';
-        document.documentElement.style.padding = '';
-        document.body.style.height = '';
-        document.body.style.margin = '';
-        document.body.style.padding = '';
-        document.body.style.overflow = '';
-      }
-    };
-  }, [isEmbed]);
 
   // Convertir les dates du query string au format ISO
   const getInitialDates = () => {
@@ -122,57 +96,45 @@ function BookPageContent() {
   };
 
   if (success) {
-    const successContent = (
-      <div className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full mx-4">
-        <div className="text-center">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg
-              className="w-8 h-8 text-green-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-          </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
-            Réservation confirmée !
-          </h1>
-          <p className="text-gray-600 mb-4">
-            Votre réservation a été enregistrée avec succès.
-          </p>
-          <p className="text-sm text-gray-500 mb-6">
-            <strong>Numéro de réservation:</strong> {bookingId}
-          </p>
-          <p className="text-sm text-gray-600 mb-6">
-            Un email de confirmation a été envoyé à votre adresse email.
-          </p>
-          <button
-            onClick={() => router.push(isEmbed ? '/booking?embed=1' : '/')}
-            className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
-          >
-            Nouvelle recherche
-          </button>
-        </div>
-      </div>
-    );
-
-    if (isEmbed) {
-      return (
-        <div className="h-full w-full flex items-center justify-center bg-white">
-          {successContent}
-        </div>
-      );
-    }
-
     return (
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center">
-        {successContent}
+        <div className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full mx-4">
+          <div className="text-center">
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg
+                className="w-8 h-8 text-green-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+            </div>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              Réservation confirmée !
+            </h1>
+            <p className="text-gray-600 mb-4">
+              Votre réservation a été enregistrée avec succès.
+            </p>
+            <p className="text-sm text-gray-500 mb-6">
+              <strong>Numéro de réservation:</strong> {bookingId}
+            </p>
+            <p className="text-sm text-gray-600 mb-6">
+              Un email de confirmation a été envoyé à votre adresse email.
+            </p>
+            <button
+              onClick={() => router.push('/')}
+              className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+            >
+              Nouvelle recherche
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -180,15 +142,14 @@ function BookPageContent() {
   const startDate = formData.start_at ? new Date(formData.start_at) : null;
   const endDate = formData.end_at ? new Date(formData.end_at) : null;
 
-  const formContent = (
-    <>
-      {!isEmbed && (
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="container mx-auto px-4 py-8 max-w-3xl">
         <header className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             Finaliser votre réservation
           </h1>
         </header>
-      )}
 
         <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4">
@@ -310,51 +271,32 @@ function BookPageContent() {
             )}
 
             <div className="flex gap-4">
-              {!isEmbed && (
-                <button
-                  type="button"
-                  onClick={() => router.back()}
-                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
-                >
-                  Retour
-                </button>
-              )}
+              <button
+                type="button"
+                onClick={() => router.back()}
+                className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
+              >
+                Retour
+              </button>
               <button
                 type="submit"
                 disabled={loading}
-                className={`${isEmbed ? 'w-full' : 'flex-1'} px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors`}
+                className="flex-1 px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 {loading ? 'Traitement...' : 'Confirmer la réservation'}
               </button>
             </div>
           </form>
         </div>
-      </>
-    );
-
-    if (isEmbed) {
-      return (
-        <div className="h-full w-full flex items-center justify-center bg-white overflow-auto">
-          <div className="w-full max-w-3xl px-4 py-8">
-            {formContent}
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-        <div className="container mx-auto px-4 py-8 max-w-3xl">
-          {formContent}
-        </div>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
 export default function BookPage() {
   return (
     <Suspense fallback={
-      <div className="h-full w-full flex items-center justify-center bg-white">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
           <p className="text-gray-600">Chargement...</p>

@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, Suspense, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useState, Suspense } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface Vehicle {
   vehicle_id: string;
@@ -14,8 +14,6 @@ interface Vehicle {
 
 function BookingPageContent() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const isEmbed = searchParams.get('embed') === '1';
   const [start, setStart] = useState('');
   const [end, setEnd] = useState('');
   const [category, setCategory] = useState('');
@@ -24,31 +22,6 @@ function BookingPageContent() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-
-  // Set html/body height to 100% in embed mode
-  useEffect(() => {
-    if (isEmbed) {
-      document.documentElement.style.height = '100%';
-      document.documentElement.style.margin = '0';
-      document.documentElement.style.padding = '0';
-      document.body.style.height = '100%';
-      document.body.style.margin = '0';
-      document.body.style.padding = '0';
-      document.body.style.overflow = 'auto';
-    }
-    
-    return () => {
-      if (isEmbed) {
-        document.documentElement.style.height = '';
-        document.documentElement.style.margin = '';
-        document.documentElement.style.padding = '';
-        document.body.style.height = '';
-        document.body.style.margin = '';
-        document.body.style.padding = '';
-        document.body.style.overflow = '';
-      }
-    };
-  }, [isEmbed]);
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -94,21 +67,19 @@ function BookingPageContent() {
       end: end,
       pickup: pickupLocation,
       return: returnLocation,
-      ...(isEmbed && { embed: '1' }),
     });
     router.push(`/book?${params}`);
   };
 
-  const bookingContent = (
-    <>
-      {!isEmbed && (
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
         <header className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
             Mandry Booking
           </h1>
           <p className="text-gray-600">Réservez votre véhicule en quelques clics</p>
         </header>
-      )}
 
         <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
           <form onSubmit={handleSearch} className="space-y-4">
@@ -249,42 +220,25 @@ function BookingPageContent() {
             </div>
           </div>
         )}
-      </>
-    );
+      </div>
+    </div>
+  );
+}
 
-    if (isEmbed) {
-      return (
-        <div className="h-full w-full bg-white overflow-auto">
-          <div className="w-full max-w-6xl mx-auto px-4 py-8">
-            {bookingContent}
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-        <div className="container mx-auto px-4 py-8 max-w-6xl">
-          {bookingContent}
+export default function BookingPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Chargement...</p>
         </div>
       </div>
-    );
-  }
-
-  export default function BookingPage() {
-    return (
-      <Suspense fallback={
-        <div className="h-full w-full flex items-center justify-center bg-white">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">Chargement...</p>
-          </div>
-        </div>
-      }>
-        <BookingPageContent />
-      </Suspense>
-    );
-  }
+    }>
+      <BookingPageContent />
+    </Suspense>
+  );
+}
 
 
 
