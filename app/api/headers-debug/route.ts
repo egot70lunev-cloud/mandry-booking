@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
       method: request.method,
       headers: requestHeaders,
     },
-    note: 'Check browser DevTools Network tab to see actual response headers. CSP and X-Frame-Options are set by next.config.js headers() function.',
+    note: 'Check browser DevTools Network tab to see actual response headers. CSP is set by vercel.json headers configuration. X-Frame-Options is NOT set.',
   });
 
   // Add CORS headers for easier debugging
@@ -25,8 +25,8 @@ export async function GET(request: NextRequest) {
   response.headers.set('Access-Control-Allow-Methods', 'GET, OPTIONS');
   response.headers.set('Access-Control-Allow-Headers', 'Content-Type');
 
-  // Note: Response headers set by next.config.js will be visible in browser DevTools
-  // We can't read them here because they're applied at the Next.js framework level
+  // Note: Response headers set by vercel.json will be visible in browser DevTools
+  // We can't read them here because they're applied at the Vercel edge level
 
   return response;
 }
