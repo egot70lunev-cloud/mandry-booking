@@ -1,34 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Permet l'intégration dans iframe (pour Framer)
+  // Permet l'intégration dans iframe (pour Framer uniquement)
   async headers() {
     return [
       {
-        // Page /booking accessible depuis n'importe quel iframe (pour Framer)
-        source: '/booking/:path*',
+        // Apply to ALL routes (pages and API)
+        source: '/:path*',
         headers: [
           {
             key: 'Content-Security-Policy',
-            value: "frame-ancestors *",
+            // Allow framing from self and Framer domains (including preview subdomains)
+            value: "frame-ancestors 'self' https://*.framer.app https://framer.app",
           },
-          {
-            key: 'X-Frame-Options',
-            value: 'ALLOWALL',
-          },
-        ],
-      },
-      {
-        // Page /book aussi accessible en iframe (pour le flow complet)
-        source: '/book/:path*',
-        headers: [
-          {
-            key: 'Content-Security-Policy',
-            value: "frame-ancestors *",
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'ALLOWALL',
-          },
+          // Do NOT set X-Frame-Options - CSP frame-ancestors takes precedence
+          // Removing X-Frame-Options to avoid conflicts
         ],
       },
     ];
